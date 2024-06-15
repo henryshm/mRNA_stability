@@ -1,4 +1,4 @@
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.11664436.svg)](https://doi.org/10.5281/zenodo.11664436)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.11664435.svg)](https://doi.org/10.5281/zenodo.11664435)
 [![DOI:10.1101/2024.06.02.596988](http://img.shields.io/badge/DOI-10.1101/2024.06.02.596988-B31B1B.svg)](https://doi.org/10.1101/2024.06.02.596988)
 
 # mRNA_stability
