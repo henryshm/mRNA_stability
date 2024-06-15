@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.11664436.svg)](https://doi.org/10.5281/zenodo.11664436)
+
 # mRNA_stability
 Code and data deposit for mRNA stability analysis in _Mycolicibacterium smegmatis_.
 This work is published here: 
