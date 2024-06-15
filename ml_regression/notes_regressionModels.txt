@@ -1,1 +1,4 @@
+############## Contains of each folder
 
+####### ml_models_trainingEvaluation
+Jupyter notebooks that were used to train machine learning models
