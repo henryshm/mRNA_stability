@@ -1,1 +1,25 @@
+############## Contains of each folder
 
+####### ml_features_halfLifeClass
+Feature rankings of machine learning models to predict half-life stability classes
+
+####### ml_features_halfLifeFcClass
+Feature rankings of machine learning models to predict half-life fold change stabilization classes
+
+####### ml_metrics_halfLifeClass
+Metrics to evaluate machine learning models prediction of half-life stability classes
+
+####### ml_metrics_halfLifeFcClass
+Metrics to evaluate machine learning models prediction of half-life fold change stabilization classes
+
+####### ml_models_statisticalComparison
+Jupyter notebooks that were used to statistically compare machine learning model performance
+
+####### ml_models_trainingEvaluation
+Jupyter notebooks that were used to train machine learning models
+
+####### SHAP_values
+SHAP values of machine learning models that were used to generate figures in manuscript. Values of some models are not in this folder due to large file size
+
+####### viz_results
+R scripts and figures generated in the manuscript
