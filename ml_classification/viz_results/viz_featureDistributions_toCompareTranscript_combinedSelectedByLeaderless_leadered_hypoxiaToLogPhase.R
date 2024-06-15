@@ -1,0 +1,1313 @@
+
+####### viz of feature distributions
+####### To compare features of leadered and leaderless transcripts 
+####### in log phase, hypoxia and fold change in hypoxia
+####### features are the top20 important features for the two transcript types
+####### feature selected by leaderless in combined selected model
+####### fold change in hypoxia 
+####### leadered transcript
+
+library(tidyverse)
+library(RColorBrewer)
+library(PupillometryR)
+library(scales)
+
+####### get color scheme for feature distributions
+col_FC_hypoxiaToLogPhase <- c("#E72F52", "#774FA0", "#0D95D0", "#7DC462")
+
+####### get feature table
+featureTable <- read.csv('../../feature/FeatureTables/featureTable_combinedSelected_halfLifeFcClass/HalfLifeFcCls_hypoxiaToLogPhase_combinedSelected_leadered_byLeaderlessFoldChange_jointlyByLeaderedLeaderless.csv')
+
+####### viz of feature distributions
+###### adja_CG_CDS
+feature_i = "adja_CG_CDS"
+
+featureTable_den <- featureTable %>% 
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  group_by(HalfLife_FCcls_hypoxiaToLogPhase) %>%
+  rename(feature_toViz = all_of(feature_i))
+
+featureTable %>%
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  rename(feature_toViz = all_of(feature_i)) %>%
+  ggplot(aes(colour = HalfLife_FCcls_hypoxiaToLogPhase)) +
+  scale_colour_manual(values = col_FC_hypoxiaToLogPhase) +
+  scale_fill_manual(values = col_FC_hypoxiaToLogPhase) +
+  stat_summary(mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, group = 1),
+               fun = "median", geom = "line", color = "#424242", linewidth = 6) +
+  stat_summary(
+    mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz),
+    fun.min = function(z) {quantile(z, 0.25)},
+    fun.max = function(z) {quantile(z, 0.75)},
+    fun = median, size = 5,
+    linewidth = 5) +
+  geom_flat_violin(data = featureTable_den, aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, fill = HalfLife_FCcls_hypoxiaToLogPhase),
+                   alpha = 0.5, trim = FALSE, adjust = 2, linetype = "blank") +
+  theme_bw() +
+  theme(panel.grid.major = element_line(colour = "#E8EBEC", linewidth = 1.5),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(), 
+        axis.text.x = element_text(size = 50, face = "bold"),
+        axis.text.y = element_text(size = 20, face = "bold"),
+        axis.ticks = element_blank(), axis.title = element_blank(),
+        legend.key.size = unit(2, 'cm'), legend.title = element_blank()) +
+  scale_x_discrete(limits = c('Small', 'Med-small', 'Med-large', 'Large')) +
+  ylim(0.09, 0.2) +
+  coord_flip()
+ggsave("./viz_featureDistributions_toCompareTranscript_hypoxiaToLogPhase/featureDistributionTop20combined_toCompareTranscript_HalfLifeFcCls_hypoxiaToLogPhase_combinedSelectedByLeaderlessFoldChange_jointlyByLeaderedLeaderless_leadered_adja_CG_CDS.png", width = 35, height = 18, units = "cm", dpi = 600)
+
+###### adja_CU_CDS
+feature_i = "adja_CU_CDS"
+
+featureTable_den <- featureTable %>% 
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  group_by(HalfLife_FCcls_hypoxiaToLogPhase) %>%
+  rename(feature_toViz = all_of(feature_i))
+
+featureTable %>%
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  rename(feature_toViz = all_of(feature_i)) %>%
+  ggplot(aes(colour = HalfLife_FCcls_hypoxiaToLogPhase)) +
+  scale_colour_manual(values = col_FC_hypoxiaToLogPhase) +
+  scale_fill_manual(values = col_FC_hypoxiaToLogPhase) +
+  stat_summary(mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, group = 1),
+               fun = "median", geom = "line", color = "#424242", linewidth = 6) +
+  stat_summary(
+    mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz),
+    fun.min = function(z) {quantile(z, 0.25)},
+    fun.max = function(z) {quantile(z, 0.75)},
+    fun = median, size = 5,
+    linewidth = 5) +
+  geom_flat_violin(data = featureTable_den, aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, fill = HalfLife_FCcls_hypoxiaToLogPhase),
+                   alpha = 0.5, trim = FALSE, adjust = 2, linetype = "blank") +
+  theme_bw() +
+  theme(panel.grid.major = element_line(colour = "#E8EBEC", linewidth = 1.5),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(), 
+        axis.text.x = element_text(size = 50, face = "bold"),
+        axis.text.y = element_text(size = 20, face = "bold"),
+        axis.ticks = element_blank(), axis.title = element_blank(),
+        legend.key.size = unit(2, 'cm'), legend.title = element_blank()) +
+  scale_x_discrete(limits = c('Small', 'Med-small', 'Med-large', 'Large')) +
+  ylim(0.01, 0.08) +
+  coord_flip()
+ggsave("./viz_featureDistributions_toCompareTranscript_hypoxiaToLogPhase/featureDistributionTop20combined_toCompareTranscript_HalfLifeFcCls_hypoxiaToLogPhase_combinedSelectedByLeaderlessFoldChange_jointlyByLeaderedLeaderless_leadered_adja_CU_CDS.png", width = 35, height = 18, units = "cm", dpi = 600)
+
+###### adja_GG_CDS
+feature_i = "adja_GG_CDS"
+
+featureTable_den <- featureTable %>% 
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  group_by(HalfLife_FCcls_hypoxiaToLogPhase) %>%
+  rename(feature_toViz = all_of(feature_i))
+
+featureTable %>%
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  rename(feature_toViz = all_of(feature_i)) %>%
+  ggplot(aes(colour = HalfLife_FCcls_hypoxiaToLogPhase)) +
+  scale_colour_manual(values = col_FC_hypoxiaToLogPhase) +
+  scale_fill_manual(values = col_FC_hypoxiaToLogPhase) +
+  stat_summary(mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, group = 1),
+               fun = "median", geom = "line", color = "#424242", linewidth = 6) +
+  stat_summary(
+    mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz),
+    fun.min = function(z) {quantile(z, 0.25)},
+    fun.max = function(z) {quantile(z, 0.75)},
+    fun = median, size = 5,
+    linewidth = 5) +
+  geom_flat_violin(data = featureTable_den, aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, fill = HalfLife_FCcls_hypoxiaToLogPhase),
+                   alpha = 0.5, trim = FALSE, adjust = 2, linetype = "blank") +
+  theme_bw() +
+  theme(panel.grid.major = element_line(colour = "#E8EBEC", linewidth = 1.5),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(), 
+        axis.text.x = element_text(size = 50, face = "bold"),
+        axis.text.y = element_text(size = 20, face = "bold"),
+        axis.ticks = element_blank(), axis.title = element_blank(),
+        legend.key.size = unit(2, 'cm'), legend.title = element_blank()) +
+  scale_x_discrete(limits = c('Small', 'Med-small', 'Med-large', 'Large')) +
+  ylim(0.04, 0.16) +
+  coord_flip()
+ggsave("./viz_featureDistributions_toCompareTranscript_hypoxiaToLogPhase/featureDistributionTop20combined_toCompareTranscript_HalfLifeFcCls_hypoxiaToLogPhase_combinedSelectedByLeaderlessFoldChange_jointlyByLeaderedLeaderless_leadered_adja_GG_CDS.png", width = 35, height = 18, units = "cm", dpi = 600)
+
+###### CDS_MFE_100_50nt_5p
+feature_i = "CDS_MFE_100_50nt_5p"
+
+featureTable_den <- featureTable %>% 
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  group_by(HalfLife_FCcls_hypoxiaToLogPhase) %>%
+  rename(feature_toViz = all_of(feature_i))
+
+featureTable %>%
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  rename(feature_toViz = all_of(feature_i)) %>%
+  ggplot(aes(colour = HalfLife_FCcls_hypoxiaToLogPhase)) +
+  scale_colour_manual(values = col_FC_hypoxiaToLogPhase) +
+  scale_fill_manual(values = col_FC_hypoxiaToLogPhase) +
+  stat_summary(mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, group = 1),
+               fun = "median", geom = "line", color = "#424242", linewidth = 6) +
+  stat_summary(
+    mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz),
+    fun.min = function(z) {quantile(z, 0.25)},
+    fun.max = function(z) {quantile(z, 0.75)},
+    fun = median, size = 5,
+    linewidth = 5) +
+  geom_flat_violin(data = featureTable_den, aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, fill = HalfLife_FCcls_hypoxiaToLogPhase),
+                   alpha = 0.5, trim = FALSE, adjust = 2, linetype = "blank") +
+  theme_bw() +
+  theme(panel.grid.major = element_line(colour = "#E8EBEC", linewidth = 1.5),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(), 
+        axis.text.x = element_text(size = 50, face = "bold"),
+        axis.text.y = element_text(size = 20, face = "bold"),
+        axis.ticks = element_blank(), axis.title = element_blank(),
+        legend.key.size = unit(2, 'cm'), legend.title = element_blank()) +
+  scale_x_discrete(limits = c('Small', 'Med-small', 'Med-large', 'Large')) +
+  ylim(-55, -25) +
+  coord_flip()
+ggsave("./viz_featureDistributions_toCompareTranscript_hypoxiaToLogPhase/featureDistributionTop20combined_toCompareTranscript_HalfLifeFcCls_hypoxiaToLogPhase_combinedSelectedByLeaderlessFoldChange_jointlyByLeaderedLeaderless_leadered_CDS_MFE_100_50nt_5p.png", width = 35, height = 18, units = "cm", dpi = 600)
+
+###### CDS_MFE_20_10nt_5p
+feature_i = "CDS_MFE_20_10nt_5p"
+
+featureTable_den <- featureTable %>% 
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  group_by(HalfLife_FCcls_hypoxiaToLogPhase) %>%
+  rename(feature_toViz = all_of(feature_i))
+
+featureTable %>%
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  rename(feature_toViz = all_of(feature_i)) %>%
+  ggplot(aes(colour = HalfLife_FCcls_hypoxiaToLogPhase)) +
+  scale_colour_manual(values = col_FC_hypoxiaToLogPhase) +
+  scale_fill_manual(values = col_FC_hypoxiaToLogPhase) +
+  stat_summary(mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, group = 1),
+               fun = "median", geom = "line", color = "#424242", linewidth = 6) +
+  stat_summary(
+    mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz),
+    fun.min = function(z) {quantile(z, 0.25)},
+    fun.max = function(z) {quantile(z, 0.75)},
+    fun = median, size = 5,
+    linewidth = 5) +
+  geom_flat_violin(data = featureTable_den, aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, fill = HalfLife_FCcls_hypoxiaToLogPhase),
+                   alpha = 0.5, trim = FALSE, adjust = 2, linetype = "blank") +
+  theme_bw() +
+  theme(panel.grid.major = element_line(colour = "#E8EBEC", linewidth = 1.5),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(), 
+        axis.text.x = element_text(size = 50, face = "bold"),
+        axis.text.y = element_text(size = 20, face = "bold"),
+        axis.ticks = element_blank(), axis.title = element_blank(),
+        legend.key.size = unit(2, 'cm'), legend.title = element_blank()) +
+  scale_x_discrete(limits = c('Small', 'Med-small', 'Med-large', 'Large')) +
+  ylim(-6, -1) +
+  coord_flip()
+ggsave("./viz_featureDistributions_toCompareTranscript_hypoxiaToLogPhase/featureDistributionTop20combined_toCompareTranscript_HalfLifeFcCls_hypoxiaToLogPhase_combinedSelectedByLeaderlessFoldChange_jointlyByLeaderedLeaderless_leadered_CDS_MFE_20_10nt_5p.png", width = 35, height = 18, units = "cm", dpi = 600)
+
+###### CDS_MFE_50_25nt_5p
+feature_i = "CDS_MFE_50_25nt_5p"
+
+featureTable_den <- featureTable %>% 
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  group_by(HalfLife_FCcls_hypoxiaToLogPhase) %>%
+  rename(feature_toViz = all_of(feature_i))
+
+featureTable %>%
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  rename(feature_toViz = all_of(feature_i)) %>%
+  ggplot(aes(colour = HalfLife_FCcls_hypoxiaToLogPhase)) +
+  scale_colour_manual(values = col_FC_hypoxiaToLogPhase) +
+  scale_fill_manual(values = col_FC_hypoxiaToLogPhase) +
+  stat_summary(mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, group = 1),
+               fun = "median", geom = "line", color = "#424242", linewidth = 6) +
+  stat_summary(
+    mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz),
+    fun.min = function(z) {quantile(z, 0.25)},
+    fun.max = function(z) {quantile(z, 0.75)},
+    fun = median, size = 5,
+    linewidth = 5) +
+  geom_flat_violin(data = featureTable_den, aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, fill = HalfLife_FCcls_hypoxiaToLogPhase),
+                   alpha = 0.5, trim = FALSE, adjust = 2, linetype = "blank") +
+  theme_bw() +
+  theme(panel.grid.major = element_line(colour = "#E8EBEC", linewidth = 1.5),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(), 
+        axis.text.x = element_text(size = 50, face = "bold"),
+        axis.text.y = element_text(size = 20, face = "bold"),
+        axis.ticks = element_blank(), axis.title = element_blank(),
+        legend.key.size = unit(2, 'cm'), legend.title = element_blank()) +
+  scale_x_discrete(limits = c('Small', 'Med-small', 'Med-large', 'Large')) +
+  ylim(-25, -7) +
+  coord_flip()
+ggsave("./viz_featureDistributions_toCompareTranscript_hypoxiaToLogPhase/featureDistributionTop20combined_toCompareTranscript_HalfLifeFcCls_hypoxiaToLogPhase_combinedSelectedByLeaderlessFoldChange_jointlyByLeaderedLeaderless_leadered_CDS_MFE_50_25nt_5p.png", width = 35, height = 18, units = "cm", dpi = 600)
+
+###### ACC_CDSnstop
+feature_i = "ACC_CDSnstop"
+
+featureTable_den <- featureTable %>% 
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  group_by(HalfLife_FCcls_hypoxiaToLogPhase) %>%
+  rename(feature_toViz = all_of(feature_i))
+
+featureTable %>%
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  rename(feature_toViz = all_of(feature_i)) %>%
+  ggplot(aes(colour = HalfLife_FCcls_hypoxiaToLogPhase)) +
+  scale_colour_manual(values = col_FC_hypoxiaToLogPhase) +
+  scale_fill_manual(values = col_FC_hypoxiaToLogPhase) +
+  stat_summary(mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, group = 1),
+               fun = "median", geom = "line", color = "#424242", linewidth = 6) +
+  stat_summary(
+    mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz),
+    fun.min = function(z) {quantile(z, 0.25)},
+    fun.max = function(z) {quantile(z, 0.75)},
+    fun = median, size = 5,
+    linewidth = 5) +
+  geom_flat_violin(data = featureTable_den, aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, fill = HalfLife_FCcls_hypoxiaToLogPhase),
+                   alpha = 0.5, trim = FALSE, adjust = 2, linetype = "blank") +
+  theme_bw() +
+  theme(panel.grid.major = element_line(colour = "#E8EBEC", linewidth = 1.5),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(), 
+        axis.text.x = element_text(size = 50, face = "bold"),
+        axis.text.y = element_text(size = 20, face = "bold"),
+        axis.ticks = element_blank(), axis.title = element_blank(),
+        legend.key.size = unit(2, 'cm'), legend.title = element_blank()) +
+  scale_x_discrete(limits = c('Small', 'Med-small', 'Med-large', 'Large')) +
+  ylim(-0.025, 0.1) +
+  coord_flip()
+ggsave("./viz_featureDistributions_toCompareTranscript_hypoxiaToLogPhase/featureDistributionTop20combined_toCompareTranscript_HalfLifeFcCls_hypoxiaToLogPhase_combinedSelectedByLeaderlessFoldChange_jointlyByLeaderedLeaderless_leadered_ACC_CDSnstop.png", width = 35, height = 18, units = "cm", dpi = 600)
+
+###### AGC_CDSnstop
+feature_i = "AGC_CDSnstop"
+
+featureTable_den <- featureTable %>% 
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  group_by(HalfLife_FCcls_hypoxiaToLogPhase) %>%
+  rename(feature_toViz = all_of(feature_i))
+
+featureTable %>%
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  rename(feature_toViz = all_of(feature_i)) %>%
+  ggplot(aes(colour = HalfLife_FCcls_hypoxiaToLogPhase)) +
+  scale_colour_manual(values = col_FC_hypoxiaToLogPhase) +
+  scale_fill_manual(values = col_FC_hypoxiaToLogPhase) +
+  stat_summary(mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, group = 1),
+               fun = "median", geom = "line", color = "#424242", linewidth = 6) +
+  stat_summary(
+    mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz),
+    fun.min = function(z) {quantile(z, 0.25)},
+    fun.max = function(z) {quantile(z, 0.75)},
+    fun = median, size = 5,
+    linewidth = 5) +
+  geom_flat_violin(data = featureTable_den, aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, fill = HalfLife_FCcls_hypoxiaToLogPhase),
+                   alpha = 0.5, trim = FALSE, adjust = 2, linetype = "blank") +
+  theme_bw() +
+  theme(panel.grid.major = element_line(colour = "#E8EBEC", linewidth = 1.5),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(), 
+        axis.text.x = element_text(size = 50, face = "bold"),
+        axis.text.y = element_text(size = 20, face = "bold"),
+        axis.ticks = element_blank(), axis.title = element_blank(),
+        legend.key.size = unit(2, 'cm'), legend.title = element_blank()) +
+  scale_x_discrete(limits = c('Small', 'Med-small', 'Med-large', 'Large')) +
+  ylim(-0.015, 0.05) +
+  coord_flip()
+ggsave("./viz_featureDistributions_toCompareTranscript_hypoxiaToLogPhase/featureDistributionTop20combined_toCompareTranscript_HalfLifeFcCls_hypoxiaToLogPhase_combinedSelectedByLeaderlessFoldChange_jointlyByLeaderedLeaderless_leadered_AGC_CDSnstop.png", width = 35, height = 18, units = "cm", dpi = 600)
+
+###### AUC_CDSnstop
+feature_i = "AUC_CDSnstop"
+
+featureTable_den <- featureTable %>% 
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  group_by(HalfLife_FCcls_hypoxiaToLogPhase) %>%
+  rename(feature_toViz = all_of(feature_i))
+
+featureTable %>%
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  rename(feature_toViz = all_of(feature_i)) %>%
+  ggplot(aes(colour = HalfLife_FCcls_hypoxiaToLogPhase)) +
+  scale_colour_manual(values = col_FC_hypoxiaToLogPhase) +
+  scale_fill_manual(values = col_FC_hypoxiaToLogPhase) +
+  stat_summary(mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, group = 1),
+               fun = "median", geom = "line", color = "#424242", linewidth = 6) +
+  stat_summary(
+    mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz),
+    fun.min = function(z) {quantile(z, 0.25)},
+    fun.max = function(z) {quantile(z, 0.75)},
+    fun = median, size = 5,
+    linewidth = 5) +
+  geom_flat_violin(data = featureTable_den, aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, fill = HalfLife_FCcls_hypoxiaToLogPhase),
+                   alpha = 0.5, trim = FALSE, adjust = 2, linetype = "blank") +
+  theme_bw() +
+  theme(panel.grid.major = element_line(colour = "#E8EBEC", linewidth = 1.5),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(), 
+        axis.text.x = element_text(size = 50, face = "bold"),
+        axis.text.y = element_text(size = 20, face = "bold"),
+        axis.ticks = element_blank(), axis.title = element_blank(),
+        legend.key.size = unit(2, 'cm'), legend.title = element_blank()) +
+  scale_x_discrete(limits = c('Small', 'Med-small', 'Med-large', 'Large')) +
+  ylim(-0.015, 0.1) +
+  coord_flip()
+ggsave("./viz_featureDistributions_toCompareTranscript_hypoxiaToLogPhase/featureDistributionTop20combined_toCompareTranscript_HalfLifeFcCls_hypoxiaToLogPhase_combinedSelectedByLeaderlessFoldChange_jointlyByLeaderedLeaderless_leadered_AUC_CDSnstop.png", width = 35, height = 18, units = "cm", dpi = 600)
+
+###### CGC_CDSnstop
+feature_i = "CGC_CDSnstop"
+
+featureTable_den <- featureTable %>% 
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  group_by(HalfLife_FCcls_hypoxiaToLogPhase) %>%
+  rename(feature_toViz = all_of(feature_i))
+
+featureTable %>%
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  rename(feature_toViz = all_of(feature_i)) %>%
+  ggplot(aes(colour = HalfLife_FCcls_hypoxiaToLogPhase)) +
+  scale_colour_manual(values = col_FC_hypoxiaToLogPhase) +
+  scale_fill_manual(values = col_FC_hypoxiaToLogPhase) +
+  stat_summary(mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, group = 1),
+               fun = "median", geom = "line", color = "#424242", linewidth = 6) +
+  stat_summary(
+    mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz),
+    fun.min = function(z) {quantile(z, 0.25)},
+    fun.max = function(z) {quantile(z, 0.75)},
+    fun = median, size = 5,
+    linewidth = 5) +
+  geom_flat_violin(data = featureTable_den, aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, fill = HalfLife_FCcls_hypoxiaToLogPhase),
+                   alpha = 0.5, trim = FALSE, adjust = 2, linetype = "blank") +
+  theme_bw() +
+  theme(panel.grid.major = element_line(colour = "#E8EBEC", linewidth = 1.5),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(), 
+        axis.text.x = element_text(size = 50, face = "bold"),
+        axis.text.y = element_text(size = 20, face = "bold"),
+        axis.ticks = element_blank(), axis.title = element_blank(),
+        legend.key.size = unit(2, 'cm'), legend.title = element_blank()) +
+  scale_x_discrete(limits = c('Small', 'Med-small', 'Med-large', 'Large')) +
+  ylim(-0.015, 0.1) +
+  coord_flip()
+ggsave("./viz_featureDistributions_toCompareTranscript_hypoxiaToLogPhase/featureDistributionTop20combined_toCompareTranscript_HalfLifeFcCls_hypoxiaToLogPhase_combinedSelectedByLeaderlessFoldChange_jointlyByLeaderedLeaderless_leadered_CGC_CDSnstop.png", width = 35, height = 18, units = "cm", dpi = 600)
+
+###### CGG_CDSnstop
+feature_i = "CGG_CDSnstop"
+
+featureTable_den <- featureTable %>% 
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  group_by(HalfLife_FCcls_hypoxiaToLogPhase) %>%
+  rename(feature_toViz = all_of(feature_i))
+
+featureTable %>%
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  rename(feature_toViz = all_of(feature_i)) %>%
+  ggplot(aes(colour = HalfLife_FCcls_hypoxiaToLogPhase)) +
+  scale_colour_manual(values = col_FC_hypoxiaToLogPhase) +
+  scale_fill_manual(values = col_FC_hypoxiaToLogPhase) +
+  stat_summary(mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, group = 1),
+               fun = "median", geom = "line", color = "#424242", linewidth = 6) +
+  stat_summary(
+    mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz),
+    fun.min = function(z) {quantile(z, 0.25)},
+    fun.max = function(z) {quantile(z, 0.75)},
+    fun = median, size = 5,
+    linewidth = 5) +
+  geom_flat_violin(data = featureTable_den, aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, fill = HalfLife_FCcls_hypoxiaToLogPhase),
+                   alpha = 0.5, trim = FALSE, adjust = 2, linetype = "blank") +
+  theme_bw() +
+  theme(panel.grid.major = element_line(colour = "#E8EBEC", linewidth = 1.5),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(), 
+        axis.text.x = element_text(size = 50, face = "bold"),
+        axis.text.y = element_text(size = 20, face = "bold"),
+        axis.ticks = element_blank(), axis.title = element_blank(),
+        legend.key.size = unit(2, 'cm'), legend.title = element_blank()) +
+  scale_x_discrete(limits = c('Small', 'Med-small', 'Med-large', 'Large')) +
+  ylim(-0.015, 0.06) +
+  coord_flip()
+ggsave("./viz_featureDistributions_toCompareTranscript_hypoxiaToLogPhase/featureDistributionTop20combined_toCompareTranscript_HalfLifeFcCls_hypoxiaToLogPhase_combinedSelectedByLeaderlessFoldChange_jointlyByLeaderedLeaderless_leadered_CGG_CDSnstop.png", width = 35, height = 18, units = "cm", dpi = 600)
+
+###### CGU_CDSnstop
+feature_i = "CGU_CDSnstop"
+
+featureTable_den <- featureTable %>% 
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  group_by(HalfLife_FCcls_hypoxiaToLogPhase) %>%
+  rename(feature_toViz = all_of(feature_i))
+
+featureTable %>%
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  rename(feature_toViz = all_of(feature_i)) %>%
+  ggplot(aes(colour = HalfLife_FCcls_hypoxiaToLogPhase)) +
+  scale_colour_manual(values = col_FC_hypoxiaToLogPhase) +
+  scale_fill_manual(values = col_FC_hypoxiaToLogPhase) +
+  stat_summary(mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, group = 1),
+               fun = "median", geom = "line", color = "#424242", linewidth = 6) +
+  stat_summary(
+    mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz),
+    fun.min = function(z) {quantile(z, 0.25)},
+    fun.max = function(z) {quantile(z, 0.75)},
+    fun = median, size = 5,
+    linewidth = 5) +
+  geom_flat_violin(data = featureTable_den, aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, fill = HalfLife_FCcls_hypoxiaToLogPhase),
+                   alpha = 0.5, trim = FALSE, adjust = 2, linetype = "blank") +
+  theme_bw() +
+  theme(panel.grid.major = element_line(colour = "#E8EBEC", linewidth = 1.5),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(), 
+        axis.text.x = element_text(size = 50, face = "bold"),
+        axis.text.y = element_text(size = 20, face = "bold"),
+        axis.ticks = element_blank(), axis.title = element_blank(),
+        legend.key.size = unit(2, 'cm'), legend.title = element_blank()) +
+  scale_x_discrete(limits = c('Small', 'Med-small', 'Med-large', 'Large')) +
+  ylim(-0.015, 0.04) +
+  coord_flip()
+ggsave("./viz_featureDistributions_toCompareTranscript_hypoxiaToLogPhase/featureDistributionTop20combined_toCompareTranscript_HalfLifeFcCls_hypoxiaToLogPhase_combinedSelectedByLeaderlessFoldChange_jointlyByLeaderedLeaderless_leadered_CGU_CDSnstop.png", width = 35, height = 18, units = "cm", dpi = 600)
+
+###### CUC_CDSnstop
+feature_i = "CUC_CDSnstop"
+
+featureTable_den <- featureTable %>% 
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  group_by(HalfLife_FCcls_hypoxiaToLogPhase) %>%
+  rename(feature_toViz = all_of(feature_i))
+
+featureTable %>%
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  rename(feature_toViz = all_of(feature_i)) %>%
+  ggplot(aes(colour = HalfLife_FCcls_hypoxiaToLogPhase)) +
+  scale_colour_manual(values = col_FC_hypoxiaToLogPhase) +
+  scale_fill_manual(values = col_FC_hypoxiaToLogPhase) +
+  stat_summary(mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, group = 1),
+               fun = "median", geom = "line", color = "#424242", linewidth = 6) +
+  stat_summary(
+    mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz),
+    fun.min = function(z) {quantile(z, 0.25)},
+    fun.max = function(z) {quantile(z, 0.75)},
+    fun = median, size = 5,
+    linewidth = 5) +
+  geom_flat_violin(data = featureTable_den, aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, fill = HalfLife_FCcls_hypoxiaToLogPhase),
+                   alpha = 0.5, trim = FALSE, adjust = 2, linetype = "blank") +
+  theme_bw() +
+  theme(panel.grid.major = element_line(colour = "#E8EBEC", linewidth = 1.5),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(), 
+        axis.text.x = element_text(size = 50, face = "bold"),
+        axis.text.y = element_text(size = 20, face = "bold"),
+        axis.ticks = element_blank(), axis.title = element_blank(),
+        legend.key.size = unit(2, 'cm'), legend.title = element_blank()) +
+  scale_x_discrete(limits = c('Small', 'Med-small', 'Med-large', 'Large')) +
+  ylim(-0.015, 0.08) +
+  coord_flip()
+ggsave("./viz_featureDistributions_toCompareTranscript_hypoxiaToLogPhase/featureDistributionTop20combined_toCompareTranscript_HalfLifeFcCls_hypoxiaToLogPhase_combinedSelectedByLeaderlessFoldChange_jointlyByLeaderedLeaderless_leadered_CUC_CDSnstop.png", width = 35, height = 18, units = "cm", dpi = 600)
+
+###### CUG_CDSnstop
+feature_i = "CUG_CDSnstop"
+
+featureTable_den <- featureTable %>% 
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  group_by(HalfLife_FCcls_hypoxiaToLogPhase) %>%
+  rename(feature_toViz = all_of(feature_i))
+
+featureTable %>%
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  rename(feature_toViz = all_of(feature_i)) %>%
+  ggplot(aes(colour = HalfLife_FCcls_hypoxiaToLogPhase)) +
+  scale_colour_manual(values = col_FC_hypoxiaToLogPhase) +
+  scale_fill_manual(values = col_FC_hypoxiaToLogPhase) +
+  stat_summary(mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, group = 1),
+               fun = "median", geom = "line", color = "#424242", linewidth = 6) +
+  stat_summary(
+    mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz),
+    fun.min = function(z) {quantile(z, 0.25)},
+    fun.max = function(z) {quantile(z, 0.75)},
+    fun = median, size = 5,
+    linewidth = 5) +
+  geom_flat_violin(data = featureTable_den, aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, fill = HalfLife_FCcls_hypoxiaToLogPhase),
+                   alpha = 0.5, trim = FALSE, adjust = 2, linetype = "blank") +
+  theme_bw() +
+  theme(panel.grid.major = element_line(colour = "#E8EBEC", linewidth = 1.5),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(), 
+        axis.text.x = element_text(size = 50, face = "bold"),
+        axis.text.y = element_text(size = 20, face = "bold"),
+        axis.ticks = element_blank(), axis.title = element_blank(),
+        legend.key.size = unit(2, 'cm'), legend.title = element_blank()) +
+  scale_x_discrete(limits = c('Small', 'Med-small', 'Med-large', 'Large')) +
+  ylim(-0.015, 0.12) +
+  coord_flip()
+ggsave("./viz_featureDistributions_toCompareTranscript_hypoxiaToLogPhase/featureDistributionTop20combined_toCompareTranscript_HalfLifeFcCls_hypoxiaToLogPhase_combinedSelectedByLeaderlessFoldChange_jointlyByLeaderedLeaderless_leadered_CUG_CDSnstop.png", width = 35, height = 18, units = "cm", dpi = 600)
+
+###### CUU_CDSnstop
+feature_i = "CUU_CDSnstop"
+
+featureTable_den <- featureTable %>% 
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  group_by(HalfLife_FCcls_hypoxiaToLogPhase) %>%
+  rename(feature_toViz = all_of(feature_i))
+
+featureTable %>%
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  rename(feature_toViz = all_of(feature_i)) %>%
+  ggplot(aes(colour = HalfLife_FCcls_hypoxiaToLogPhase)) +
+  scale_colour_manual(values = col_FC_hypoxiaToLogPhase) +
+  scale_fill_manual(values = col_FC_hypoxiaToLogPhase) +
+  stat_summary(mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, group = 1),
+               fun = "median", geom = "line", color = "#424242", linewidth = 6) +
+  stat_summary(
+    mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz),
+    fun.min = function(z) {quantile(z, 0.25)},
+    fun.max = function(z) {quantile(z, 0.75)},
+    fun = median, size = 5,
+    linewidth = 5) +
+  geom_flat_violin(data = featureTable_den, aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, fill = HalfLife_FCcls_hypoxiaToLogPhase),
+                   alpha = 0.5, trim = FALSE, adjust = 2, linetype = "blank") +
+  theme_bw() +
+  theme(panel.grid.major = element_line(colour = "#E8EBEC", linewidth = 1.5),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(), 
+        axis.text.x = element_text(size = 50, face = "bold"),
+        axis.text.y = element_text(size = 20, face = "bold"),
+        axis.ticks = element_blank(), axis.title = element_blank(),
+        legend.key.size = unit(2, 'cm'), legend.title = element_blank()) +
+  scale_x_discrete(limits = c('Small', 'Med-small', 'Med-large', 'Large')) +
+  ylim(-0.01, 0.02) +
+  coord_flip()
+ggsave("./viz_featureDistributions_toCompareTranscript_hypoxiaToLogPhase/featureDistributionTop20combined_toCompareTranscript_HalfLifeFcCls_hypoxiaToLogPhase_combinedSelectedByLeaderlessFoldChange_jointlyByLeaderedLeaderless_leadered_CUU_CDSnstop.png", width = 35, height = 18, units = "cm", dpi = 600)
+
+###### CodonPairBias
+feature_i = "CodonPairBias"
+
+featureTable_den <- featureTable %>% 
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  group_by(HalfLife_FCcls_hypoxiaToLogPhase) %>%
+  rename(feature_toViz = all_of(feature_i))
+
+featureTable %>%
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  rename(feature_toViz = all_of(feature_i)) %>%
+  ggplot(aes(colour = HalfLife_FCcls_hypoxiaToLogPhase)) +
+  scale_colour_manual(values = col_FC_hypoxiaToLogPhase) +
+  scale_fill_manual(values = col_FC_hypoxiaToLogPhase) +
+  stat_summary(mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, group = 1),
+               fun = "median", geom = "line", color = "#424242", linewidth = 6) +
+  stat_summary(
+    mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz),
+    fun.min = function(z) {quantile(z, 0.25)},
+    fun.max = function(z) {quantile(z, 0.75)},
+    fun = median, size = 5,
+    linewidth = 5) +
+  geom_flat_violin(data = featureTable_den, aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, fill = HalfLife_FCcls_hypoxiaToLogPhase),
+                   alpha = 0.5, trim = FALSE, adjust = 2, linetype = "blank") +
+  theme_bw() +
+  theme(panel.grid.major = element_line(colour = "#E8EBEC", linewidth = 1.5),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(), 
+        axis.text.x = element_text(size = 50, face = "bold"),
+        axis.text.y = element_text(size = 20, face = "bold"),
+        axis.ticks = element_blank(), axis.title = element_blank(),
+        legend.key.size = unit(2, 'cm'), legend.title = element_blank()) +
+  scale_x_discrete(limits = c('Small', 'Med-small', 'Med-large', 'Large')) +
+  ylim(-0.02, 0.2) +
+  coord_flip()
+ggsave("./viz_featureDistributions_toCompareTranscript_hypoxiaToLogPhase/featureDistributionTop20combined_toCompareTranscript_HalfLifeFcCls_hypoxiaToLogPhase_combinedSelectedByLeaderlessFoldChange_jointlyByLeaderedLeaderless_leadered_CodonPairBias.png", width = 35, height = 18, units = "cm", dpi = 600)
+
+###### GAG_CDSnstop
+feature_i = "GAG_CDSnstop"
+
+featureTable_den <- featureTable %>% 
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  group_by(HalfLife_FCcls_hypoxiaToLogPhase) %>%
+  rename(feature_toViz = all_of(feature_i))
+
+featureTable %>%
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  rename(feature_toViz = all_of(feature_i)) %>%
+  ggplot(aes(colour = HalfLife_FCcls_hypoxiaToLogPhase)) +
+  scale_colour_manual(values = col_FC_hypoxiaToLogPhase) +
+  scale_fill_manual(values = col_FC_hypoxiaToLogPhase) +
+  stat_summary(mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, group = 1),
+               fun = "median", geom = "line", color = "#424242", linewidth = 6) +
+  stat_summary(
+    mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz),
+    fun.min = function(z) {quantile(z, 0.25)},
+    fun.max = function(z) {quantile(z, 0.75)},
+    fun = median, size = 5,
+    linewidth = 5) +
+  geom_flat_violin(data = featureTable_den, aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, fill = HalfLife_FCcls_hypoxiaToLogPhase),
+                   alpha = 0.5, trim = FALSE, adjust = 2, linetype = "blank") +
+  theme_bw() +
+  theme(panel.grid.major = element_line(colour = "#E8EBEC", linewidth = 1.5),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(), 
+        axis.text.x = element_text(size = 50, face = "bold"),
+        axis.text.y = element_text(size = 20, face = "bold"),
+        axis.ticks = element_blank(), axis.title = element_blank(),
+        legend.key.size = unit(2, 'cm'), legend.title = element_blank()) +
+  scale_x_discrete(limits = c('Small', 'Med-small', 'Med-large', 'Large')) +
+  ylim(-0.02, 0.12) +
+  coord_flip()
+ggsave("./viz_featureDistributions_toCompareTranscript_hypoxiaToLogPhase/featureDistributionTop20combined_toCompareTranscript_HalfLifeFcCls_hypoxiaToLogPhase_combinedSelectedByLeaderlessFoldChange_jointlyByLeaderedLeaderless_leadered_GAG_CDSnstop.png", width = 35, height = 18, units = "cm", dpi = 600)
+
+###### GCG_CDSnstop
+feature_i = "GCG_CDSnstop"
+
+featureTable_den <- featureTable %>% 
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  group_by(HalfLife_FCcls_hypoxiaToLogPhase) %>%
+  rename(feature_toViz = all_of(feature_i))
+
+featureTable %>%
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  rename(feature_toViz = all_of(feature_i)) %>%
+  ggplot(aes(colour = HalfLife_FCcls_hypoxiaToLogPhase)) +
+  scale_colour_manual(values = col_FC_hypoxiaToLogPhase) +
+  scale_fill_manual(values = col_FC_hypoxiaToLogPhase) +
+  stat_summary(mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, group = 1),
+               fun = "median", geom = "line", color = "#424242", linewidth = 6) +
+  stat_summary(
+    mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz),
+    fun.min = function(z) {quantile(z, 0.25)},
+    fun.max = function(z) {quantile(z, 0.75)},
+    fun = median, size = 5,
+    linewidth = 5) +
+  geom_flat_violin(data = featureTable_den, aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, fill = HalfLife_FCcls_hypoxiaToLogPhase),
+                   alpha = 0.5, trim = FALSE, adjust = 2, linetype = "blank") +
+  theme_bw() +
+  theme(panel.grid.major = element_line(colour = "#E8EBEC", linewidth = 1.5),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(), 
+        axis.text.x = element_text(size = 50, face = "bold"),
+        axis.text.y = element_text(size = 20, face = "bold"),
+        axis.ticks = element_blank(), axis.title = element_blank(),
+        legend.key.size = unit(2, 'cm'), legend.title = element_blank()) +
+  scale_x_discrete(limits = c('Small', 'Med-small', 'Med-large', 'Large')) +
+  ylim(-0.01, 0.15) +
+  coord_flip()
+ggsave("./viz_featureDistributions_toCompareTranscript_hypoxiaToLogPhase/featureDistributionTop20combined_toCompareTranscript_HalfLifeFcCls_hypoxiaToLogPhase_combinedSelectedByLeaderlessFoldChange_jointlyByLeaderedLeaderless_leadered_GCG_CDSnstop.png", width = 35, height = 18, units = "cm", dpi = 600)
+
+###### GGA_CDSnstop
+feature_i = "GGA_CDSnstop"
+
+featureTable_den <- featureTable %>% 
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  group_by(HalfLife_FCcls_hypoxiaToLogPhase) %>%
+  rename(feature_toViz = all_of(feature_i))
+
+featureTable %>%
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  rename(feature_toViz = all_of(feature_i)) %>%
+  ggplot(aes(colour = HalfLife_FCcls_hypoxiaToLogPhase)) +
+  scale_colour_manual(values = col_FC_hypoxiaToLogPhase) +
+  scale_fill_manual(values = col_FC_hypoxiaToLogPhase) +
+  stat_summary(mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, group = 1),
+               fun = "median", geom = "line", color = "#424242", linewidth = 6) +
+  stat_summary(
+    mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz),
+    fun.min = function(z) {quantile(z, 0.25)},
+    fun.max = function(z) {quantile(z, 0.75)},
+    fun = median, size = 5,
+    linewidth = 5) +
+  geom_flat_violin(data = featureTable_den, aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, fill = HalfLife_FCcls_hypoxiaToLogPhase),
+                   alpha = 0.5, trim = FALSE, adjust = 2, linetype = "blank") +
+  theme_bw() +
+  theme(panel.grid.major = element_line(colour = "#E8EBEC", linewidth = 1.5),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(), 
+        axis.text.x = element_text(size = 50, face = "bold"),
+        axis.text.y = element_text(size = 20, face = "bold"),
+        axis.ticks = element_blank(), axis.title = element_blank(),
+        legend.key.size = unit(2, 'cm'), legend.title = element_blank()) +
+  scale_x_discrete(limits = c('Small', 'Med-small', 'Med-large', 'Large')) +
+  ylim(-0.015, 0.04) +
+  coord_flip()
+ggsave("./viz_featureDistributions_toCompareTranscript_hypoxiaToLogPhase/featureDistributionTop20combined_toCompareTranscript_HalfLifeFcCls_hypoxiaToLogPhase_combinedSelectedByLeaderlessFoldChange_jointlyByLeaderedLeaderless_leadered_GGA_CDSnstop.png", width = 35, height = 18, units = "cm", dpi = 600)
+
+###### GGC_CDSnstop
+feature_i = "GGC_CDSnstop"
+
+featureTable_den <- featureTable %>% 
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  group_by(HalfLife_FCcls_hypoxiaToLogPhase) %>%
+  rename(feature_toViz = all_of(feature_i))
+
+featureTable %>%
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  rename(feature_toViz = all_of(feature_i)) %>%
+  ggplot(aes(colour = HalfLife_FCcls_hypoxiaToLogPhase)) +
+  scale_colour_manual(values = col_FC_hypoxiaToLogPhase) +
+  scale_fill_manual(values = col_FC_hypoxiaToLogPhase) +
+  stat_summary(mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, group = 1),
+               fun = "median", geom = "line", color = "#424242", linewidth = 6) +
+  stat_summary(
+    mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz),
+    fun.min = function(z) {quantile(z, 0.25)},
+    fun.max = function(z) {quantile(z, 0.75)},
+    fun = median, size = 5,
+    linewidth = 5) +
+  geom_flat_violin(data = featureTable_den, aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, fill = HalfLife_FCcls_hypoxiaToLogPhase),
+                   alpha = 0.5, trim = FALSE, adjust = 2, linetype = "blank") +
+  theme_bw() +
+  theme(panel.grid.major = element_line(colour = "#E8EBEC", linewidth = 1.5),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(), 
+        axis.text.x = element_text(size = 50, face = "bold"),
+        axis.text.y = element_text(size = 20, face = "bold"),
+        axis.ticks = element_blank(), axis.title = element_blank(),
+        legend.key.size = unit(2, 'cm'), legend.title = element_blank()) +
+  scale_x_discrete(limits = c('Small', 'Med-small', 'Med-large', 'Large')) +
+  ylim(-0.015, 0.12) +
+  coord_flip()
+ggsave("./viz_featureDistributions_toCompareTranscript_hypoxiaToLogPhase/featureDistributionTop20combined_toCompareTranscript_HalfLifeFcCls_hypoxiaToLogPhase_combinedSelectedByLeaderlessFoldChange_jointlyByLeaderedLeaderless_leadered_GGC_CDSnstop.png", width = 35, height = 18, units = "cm", dpi = 600)
+
+###### GGG_CDSnstop
+feature_i = "GGG_CDSnstop"
+
+featureTable_den <- featureTable %>% 
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  group_by(HalfLife_FCcls_hypoxiaToLogPhase) %>%
+  rename(feature_toViz = all_of(feature_i))
+
+featureTable %>%
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  rename(feature_toViz = all_of(feature_i)) %>%
+  ggplot(aes(colour = HalfLife_FCcls_hypoxiaToLogPhase)) +
+  scale_colour_manual(values = col_FC_hypoxiaToLogPhase) +
+  scale_fill_manual(values = col_FC_hypoxiaToLogPhase) +
+  stat_summary(mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, group = 1),
+               fun = "median", geom = "line", color = "#424242", linewidth = 6) +
+  stat_summary(
+    mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz),
+    fun.min = function(z) {quantile(z, 0.25)},
+    fun.max = function(z) {quantile(z, 0.75)},
+    fun = median, size = 5,
+    linewidth = 5) +
+  geom_flat_violin(data = featureTable_den, aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, fill = HalfLife_FCcls_hypoxiaToLogPhase),
+                   alpha = 0.5, trim = FALSE, adjust = 2, linetype = "blank") +
+  theme_bw() +
+  theme(panel.grid.major = element_line(colour = "#E8EBEC", linewidth = 1.5),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(), 
+        axis.text.x = element_text(size = 50, face = "bold"),
+        axis.text.y = element_text(size = 20, face = "bold"),
+        axis.ticks = element_blank(), axis.title = element_blank(),
+        legend.key.size = unit(2, 'cm'), legend.title = element_blank()) +
+  scale_x_discrete(limits = c('Small', 'Med-small', 'Med-large', 'Large')) +
+  ylim(-0.015, 0.05) +
+  coord_flip()
+ggsave("./viz_featureDistributions_toCompareTranscript_hypoxiaToLogPhase/featureDistributionTop20combined_toCompareTranscript_HalfLifeFcCls_hypoxiaToLogPhase_combinedSelectedByLeaderlessFoldChange_jointlyByLeaderedLeaderless_leadered_GGG_CDSnstop.png", width = 35, height = 18, units = "cm", dpi = 600)
+
+###### GGU_CDSnstop
+feature_i = "GGU_CDSnstop"
+
+featureTable_den <- featureTable %>% 
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  group_by(HalfLife_FCcls_hypoxiaToLogPhase) %>%
+  rename(feature_toViz = all_of(feature_i))
+
+featureTable %>%
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  rename(feature_toViz = all_of(feature_i)) %>%
+  ggplot(aes(colour = HalfLife_FCcls_hypoxiaToLogPhase)) +
+  scale_colour_manual(values = col_FC_hypoxiaToLogPhase) +
+  scale_fill_manual(values = col_FC_hypoxiaToLogPhase) +
+  stat_summary(mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, group = 1),
+               fun = "median", geom = "line", color = "#424242", linewidth = 6) +
+  stat_summary(
+    mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz),
+    fun.min = function(z) {quantile(z, 0.25)},
+    fun.max = function(z) {quantile(z, 0.75)},
+    fun = median, size = 5,
+    linewidth = 5) +
+  geom_flat_violin(data = featureTable_den, aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, fill = HalfLife_FCcls_hypoxiaToLogPhase),
+                   alpha = 0.5, trim = FALSE, adjust = 2, linetype = "blank") +
+  theme_bw() +
+  theme(panel.grid.major = element_line(colour = "#E8EBEC", linewidth = 1.5),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(), 
+        axis.text.x = element_text(size = 50, face = "bold"),
+        axis.text.y = element_text(size = 20, face = "bold"),
+        axis.ticks = element_blank(), axis.title = element_blank(),
+        legend.key.size = unit(2, 'cm'), legend.title = element_blank()) +
+  scale_x_discrete(limits = c('Small', 'Med-small', 'Med-large', 'Large')) +
+  ylim(-0.01, 0.05) +
+  coord_flip()
+ggsave("./viz_featureDistributions_toCompareTranscript_hypoxiaToLogPhase/featureDistributionTop20combined_toCompareTranscript_HalfLifeFcCls_hypoxiaToLogPhase_combinedSelectedByLeaderlessFoldChange_jointlyByLeaderedLeaderless_leadered_GGU_CDSnstop.png", width = 35, height = 18, units = "cm", dpi = 600)
+
+###### GUG_CDSnstop
+feature_i = "GUG_CDSnstop"
+
+featureTable_den <- featureTable %>% 
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  group_by(HalfLife_FCcls_hypoxiaToLogPhase) %>%
+  rename(feature_toViz = all_of(feature_i))
+
+featureTable %>%
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  rename(feature_toViz = all_of(feature_i)) %>%
+  ggplot(aes(colour = HalfLife_FCcls_hypoxiaToLogPhase)) +
+  scale_colour_manual(values = col_FC_hypoxiaToLogPhase) +
+  scale_fill_manual(values = col_FC_hypoxiaToLogPhase) +
+  stat_summary(mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, group = 1),
+               fun = "median", geom = "line", color = "#424242", linewidth = 6) +
+  stat_summary(
+    mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz),
+    fun.min = function(z) {quantile(z, 0.25)},
+    fun.max = function(z) {quantile(z, 0.75)},
+    fun = median, size = 5,
+    linewidth = 5) +
+  geom_flat_violin(data = featureTable_den, aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, fill = HalfLife_FCcls_hypoxiaToLogPhase),
+                   alpha = 0.5, trim = FALSE, adjust = 2, linetype = "blank") +
+  theme_bw() +
+  theme(panel.grid.major = element_line(colour = "#E8EBEC", linewidth = 1.5),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(), 
+        axis.text.x = element_text(size = 50, face = "bold"),
+        axis.text.y = element_text(size = 20, face = "bold"),
+        axis.ticks = element_blank(), axis.title = element_blank(),
+        legend.key.size = unit(2, 'cm'), legend.title = element_blank()) +
+  scale_x_discrete(limits = c('Small', 'Med-small', 'Med-large', 'Large')) +
+  ylim(-0.01, 0.12) +
+  coord_flip()
+ggsave("./viz_featureDistributions_toCompareTranscript_hypoxiaToLogPhase/featureDistributionTop20combined_toCompareTranscript_HalfLifeFcCls_hypoxiaToLogPhase_combinedSelectedByLeaderlessFoldChange_jointlyByLeaderedLeaderless_leadered_GUG_CDSnstop.png", width = 35, height = 18, units = "cm", dpi = 600)
+
+###### UAC_CDSnstop
+feature_i = "UAC_CDSnstop"
+
+featureTable_den <- featureTable %>% 
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  group_by(HalfLife_FCcls_hypoxiaToLogPhase) %>%
+  rename(feature_toViz = all_of(feature_i))
+
+featureTable %>%
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  rename(feature_toViz = all_of(feature_i)) %>%
+  ggplot(aes(colour = HalfLife_FCcls_hypoxiaToLogPhase)) +
+  scale_colour_manual(values = col_FC_hypoxiaToLogPhase) +
+  scale_fill_manual(values = col_FC_hypoxiaToLogPhase) +
+  stat_summary(mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, group = 1),
+               fun = "median", geom = "line", color = "#424242", linewidth = 6) +
+  stat_summary(
+    mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz),
+    fun.min = function(z) {quantile(z, 0.25)},
+    fun.max = function(z) {quantile(z, 0.75)},
+    fun = median, size = 5,
+    linewidth = 5) +
+  geom_flat_violin(data = featureTable_den, aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, fill = HalfLife_FCcls_hypoxiaToLogPhase),
+                   alpha = 0.5, trim = FALSE, adjust = 2, linetype = "blank") +
+  theme_bw() +
+  theme(panel.grid.major = element_line(colour = "#E8EBEC", linewidth = 1.5),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(), 
+        axis.text.x = element_text(size = 50, face = "bold"),
+        axis.text.y = element_text(size = 20, face = "bold"),
+        axis.ticks = element_blank(), axis.title = element_blank(),
+        legend.key.size = unit(2, 'cm'), legend.title = element_blank()) +
+  scale_x_discrete(limits = c('Small', 'Med-small', 'Med-large', 'Large')) +
+  ylim(-0.01, 0.06) +
+  coord_flip()
+ggsave("./viz_featureDistributions_toCompareTranscript_hypoxiaToLogPhase/featureDistributionTop20combined_toCompareTranscript_HalfLifeFcCls_hypoxiaToLogPhase_combinedSelectedByLeaderlessFoldChange_jointlyByLeaderedLeaderless_leadered_UAC_CDSnstop.png", width = 35, height = 18, units = "cm", dpi = 600)
+
+###### UCG_CDSnstop
+feature_i = "UCG_CDSnstop"
+
+featureTable_den <- featureTable %>% 
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  group_by(HalfLife_FCcls_hypoxiaToLogPhase) %>%
+  rename(feature_toViz = all_of(feature_i))
+
+featureTable %>%
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  rename(feature_toViz = all_of(feature_i)) %>%
+  ggplot(aes(colour = HalfLife_FCcls_hypoxiaToLogPhase)) +
+  scale_colour_manual(values = col_FC_hypoxiaToLogPhase) +
+  scale_fill_manual(values = col_FC_hypoxiaToLogPhase) +
+  stat_summary(mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, group = 1),
+               fun = "median", geom = "line", color = "#424242", linewidth = 6) +
+  stat_summary(
+    mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz),
+    fun.min = function(z) {quantile(z, 0.25)},
+    fun.max = function(z) {quantile(z, 0.75)},
+    fun = median, size = 5,
+    linewidth = 5) +
+  geom_flat_violin(data = featureTable_den, aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, fill = HalfLife_FCcls_hypoxiaToLogPhase),
+                   alpha = 0.5, trim = FALSE, adjust = 2, linetype = "blank") +
+  theme_bw() +
+  theme(panel.grid.major = element_line(colour = "#E8EBEC", linewidth = 1.5),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(), 
+        axis.text.x = element_text(size = 50, face = "bold"),
+        axis.text.y = element_text(size = 20, face = "bold"),
+        axis.ticks = element_blank(), axis.title = element_blank(),
+        legend.key.size = unit(2, 'cm'), legend.title = element_blank()) +
+  scale_x_discrete(limits = c('Small', 'Med-small', 'Med-large', 'Large')) +
+  ylim(-0.015, 0.06) +
+  coord_flip()
+ggsave("./viz_featureDistributions_toCompareTranscript_hypoxiaToLogPhase/featureDistributionTop20combined_toCompareTranscript_HalfLifeFcCls_hypoxiaToLogPhase_combinedSelectedByLeaderlessFoldChange_jointlyByLeaderedLeaderless_leadered_UCG_CDSnstop.png", width = 35, height = 18, units = "cm", dpi = 600)
+
+###### UGC_CDSnstop
+feature_i = "UGC_CDSnstop"
+
+featureTable_den <- featureTable %>% 
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  group_by(HalfLife_FCcls_hypoxiaToLogPhase) %>%
+  rename(feature_toViz = all_of(feature_i))
+
+featureTable %>%
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  rename(feature_toViz = all_of(feature_i)) %>%
+  ggplot(aes(colour = HalfLife_FCcls_hypoxiaToLogPhase)) +
+  scale_colour_manual(values = col_FC_hypoxiaToLogPhase) +
+  scale_fill_manual(values = col_FC_hypoxiaToLogPhase) +
+  stat_summary(mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, group = 1),
+               fun = "median", geom = "line", color = "#424242", linewidth = 6) +
+  stat_summary(
+    mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz),
+    fun.min = function(z) {quantile(z, 0.25)},
+    fun.max = function(z) {quantile(z, 0.75)},
+    fun = median, size = 5,
+    linewidth = 5) +
+  geom_flat_violin(data = featureTable_den, aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, fill = HalfLife_FCcls_hypoxiaToLogPhase),
+                   alpha = 0.5, trim = FALSE, adjust = 2, linetype = "blank") +
+  theme_bw() +
+  theme(panel.grid.major = element_line(colour = "#E8EBEC", linewidth = 1.5),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(), 
+        axis.text.x = element_text(size = 50, face = "bold"),
+        axis.text.y = element_text(size = 20, face = "bold"),
+        axis.ticks = element_blank(), axis.title = element_blank(),
+        legend.key.size = unit(2, 'cm'), legend.title = element_blank()) +
+  scale_x_discrete(limits = c('Small', 'Med-small', 'Med-large', 'Large')) +
+  ylim(-0.015, 0.04) +
+  coord_flip()
+ggsave("./viz_featureDistributions_toCompareTranscript_hypoxiaToLogPhase/featureDistributionTop20combined_toCompareTranscript_HalfLifeFcCls_hypoxiaToLogPhase_combinedSelectedByLeaderlessFoldChange_jointlyByLeaderedLeaderless_leadered_UGC_CDSnstop.png", width = 35, height = 18, units = "cm", dpi = 600)
+
+###### UGG_CDSnstop
+feature_i = "UGG_CDSnstop"
+
+featureTable_den <- featureTable %>% 
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  group_by(HalfLife_FCcls_hypoxiaToLogPhase) %>%
+  rename(feature_toViz = all_of(feature_i))
+
+featureTable %>%
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  rename(feature_toViz = all_of(feature_i)) %>%
+  ggplot(aes(colour = HalfLife_FCcls_hypoxiaToLogPhase)) +
+  scale_colour_manual(values = col_FC_hypoxiaToLogPhase) +
+  scale_fill_manual(values = col_FC_hypoxiaToLogPhase) +
+  stat_summary(mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, group = 1),
+               fun = "median", geom = "line", color = "#424242", linewidth = 6) +
+  stat_summary(
+    mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz),
+    fun.min = function(z) {quantile(z, 0.25)},
+    fun.max = function(z) {quantile(z, 0.75)},
+    fun = median, size = 5,
+    linewidth = 5) +
+  geom_flat_violin(data = featureTable_den, aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, fill = HalfLife_FCcls_hypoxiaToLogPhase),
+                   alpha = 0.5, trim = FALSE, adjust = 2, linetype = "blank") +
+  theme_bw() +
+  theme(panel.grid.major = element_line(colour = "#E8EBEC", linewidth = 1.5),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(), 
+        axis.text.x = element_text(size = 50, face = "bold"),
+        axis.text.y = element_text(size = 20, face = "bold"),
+        axis.ticks = element_blank(), axis.title = element_blank(),
+        legend.key.size = unit(2, 'cm'), legend.title = element_blank()) +
+  scale_x_discrete(limits = c('Small', 'Med-small', 'Med-large', 'Large')) +
+  ylim(-0.015, 0.05) +
+  coord_flip()
+ggsave("./viz_featureDistributions_toCompareTranscript_hypoxiaToLogPhase/featureDistributionTop20combined_toCompareTranscript_HalfLifeFcCls_hypoxiaToLogPhase_combinedSelectedByLeaderlessFoldChange_jointlyByLeaderedLeaderless_leadered_UGG_CDSnstop.png", width = 35, height = 18, units = "cm", dpi = 600)
+
+###### GC_CDS_5p18nt
+feature_i = "GC_CDS_5p18nt"
+
+featureTable_den <- featureTable %>% 
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  group_by(HalfLife_FCcls_hypoxiaToLogPhase) %>%
+  rename(feature_toViz = all_of(feature_i))
+
+featureTable %>%
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  rename(feature_toViz = all_of(feature_i)) %>%
+  ggplot(aes(colour = HalfLife_FCcls_hypoxiaToLogPhase)) +
+  scale_colour_manual(values = col_FC_hypoxiaToLogPhase) +
+  scale_fill_manual(values = col_FC_hypoxiaToLogPhase) +
+  stat_summary(mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, group = 1),
+               fun = "median", geom = "line", color = "#424242", linewidth = 6) +
+  stat_summary(
+    mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz),
+    fun.min = function(z) {quantile(z, 0.25)},
+    fun.max = function(z) {quantile(z, 0.75)},
+    fun = median, size = 5,
+    linewidth = 5) +
+  geom_flat_violin(data = featureTable_den, aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, fill = HalfLife_FCcls_hypoxiaToLogPhase),
+                   alpha = 0.5, trim = FALSE, adjust = 2, linetype = "blank") +
+  theme_bw() +
+  theme(panel.grid.major = element_line(colour = "#E8EBEC", linewidth = 1.5),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(), 
+        axis.text.x = element_text(size = 50, face = "bold"),
+        axis.text.y = element_text(size = 20, face = "bold"),
+        axis.ticks = element_blank(), axis.title = element_blank(),
+        legend.key.size = unit(2, 'cm'), legend.title = element_blank()) +
+  scale_x_discrete(limits = c('Small', 'Med-small', 'Med-large', 'Large')) +
+  ylim(0.25, 0.9) +
+  coord_flip()
+ggsave("./viz_featureDistributions_toCompareTranscript_hypoxiaToLogPhase/featureDistributionTop20combined_toCompareTranscript_HalfLifeFcCls_hypoxiaToLogPhase_combinedSelectedByLeaderlessFoldChange_jointlyByLeaderedLeaderless_leadered_GC_CDS_5p18nt.png", width = 35, height = 18, units = "cm", dpi = 600)
+
+###### ribo_5p
+feature_i = "ribo_5p"
+
+featureTable_den <- featureTable %>% 
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  group_by(HalfLife_FCcls_hypoxiaToLogPhase) %>%
+  rename(feature_toViz = all_of(feature_i))
+
+featureTable %>%
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  rename(feature_toViz = all_of(feature_i)) %>%
+  ggplot(aes(colour = HalfLife_FCcls_hypoxiaToLogPhase)) +
+  scale_colour_manual(values = col_FC_hypoxiaToLogPhase) +
+  scale_fill_manual(values = col_FC_hypoxiaToLogPhase) +
+  stat_summary(mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, group = 1),
+               fun = "median", geom = "line", color = "#424242", linewidth = 6) +
+  stat_summary(
+    mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz),
+    fun.min = function(z) {quantile(z, 0.25)},
+    fun.max = function(z) {quantile(z, 0.75)},
+    fun = median, size = 5,
+    linewidth = 5) +
+  geom_flat_violin(data = featureTable_den, aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, fill = HalfLife_FCcls_hypoxiaToLogPhase),
+                   alpha = 0.5, trim = FALSE, adjust = 2, linetype = "blank") +
+  theme_bw() +
+  theme(panel.grid.major = element_line(colour = "#E8EBEC", linewidth = 1.5),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(), 
+        axis.text.x = element_text(size = 50, face = "bold"),
+        axis.text.y = element_text(size = 20, face = "bold"),
+        axis.ticks = element_blank(), axis.title = element_blank(),
+        legend.key.size = unit(2, 'cm'), legend.title = element_blank()) +
+  scale_x_discrete(limits = c('Small', 'Med-small', 'Med-large', 'Large')) +
+  ylim(-1, 10) +
+  coord_flip()
+ggsave("./viz_featureDistributions_toCompareTranscript_hypoxiaToLogPhase/featureDistributionTop20combined_toCompareTranscript_HalfLifeFcCls_hypoxiaToLogPhase_combinedSelectedByLeaderlessFoldChange_jointlyByLeaderedLeaderless_leadered_ribo_5p.png", width = 35, height = 18, units = "cm", dpi = 600)
+
+###### ribo_5p_excl
+feature_i = "ribo_5p_excl"
+
+featureTable_den <- featureTable %>% 
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  group_by(HalfLife_FCcls_hypoxiaToLogPhase) %>%
+  rename(feature_toViz = all_of(feature_i))
+
+featureTable %>%
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  rename(feature_toViz = all_of(feature_i)) %>%
+  ggplot(aes(colour = HalfLife_FCcls_hypoxiaToLogPhase)) +
+  scale_colour_manual(values = col_FC_hypoxiaToLogPhase) +
+  scale_fill_manual(values = col_FC_hypoxiaToLogPhase) +
+  stat_summary(mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, group = 1),
+               fun = "median", geom = "line", color = "#424242", linewidth = 6) +
+  stat_summary(
+    mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz),
+    fun.min = function(z) {quantile(z, 0.25)},
+    fun.max = function(z) {quantile(z, 0.75)},
+    fun = median, size = 5,
+    linewidth = 5) +
+  geom_flat_violin(data = featureTable_den, aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, fill = HalfLife_FCcls_hypoxiaToLogPhase),
+                   alpha = 0.5, trim = FALSE, adjust = 2, linetype = "blank") +
+  theme_bw() +
+  theme(panel.grid.major = element_line(colour = "#E8EBEC", linewidth = 1.5),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(), 
+        axis.text.x = element_text(size = 50, face = "bold"),
+        axis.text.y = element_text(size = 20, face = "bold"),
+        axis.ticks = element_blank(), axis.title = element_blank(),
+        legend.key.size = unit(2, 'cm'), legend.title = element_blank()) +
+  scale_x_discrete(limits = c('Small', 'Med-small', 'Med-large', 'Large')) +
+  ylim(-0.5, 2.5) +
+  coord_flip()
+ggsave("./viz_featureDistributions_toCompareTranscript_hypoxiaToLogPhase/featureDistributionTop20combined_toCompareTranscript_HalfLifeFcCls_hypoxiaToLogPhase_combinedSelectedByLeaderlessFoldChange_jointlyByLeaderedLeaderless_leadered_ribo_5p_excl.png", width = 35, height = 18, units = "cm", dpi = 600)
+
+###### CDS_length
+feature_i = "CDS_length"
+
+featureTable_den <- featureTable %>% 
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  group_by(HalfLife_FCcls_hypoxiaToLogPhase) %>%
+  rename(feature_toViz = all_of(feature_i))
+
+featureTable %>%
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  rename(feature_toViz = all_of(feature_i)) %>%
+  ggplot(aes(colour = HalfLife_FCcls_hypoxiaToLogPhase)) +
+  scale_colour_manual(values = col_FC_hypoxiaToLogPhase) +
+  scale_fill_manual(values = col_FC_hypoxiaToLogPhase) +
+  stat_summary(mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, group = 1),
+               fun = "median", geom = "line", color = "#424242", linewidth = 6) +
+  stat_summary(
+    mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz),
+    fun.min = function(z) {quantile(z, 0.25)},
+    fun.max = function(z) {quantile(z, 0.75)},
+    fun = median, size = 5,
+    linewidth = 5) +
+  geom_flat_violin(data = featureTable_den, aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, fill = HalfLife_FCcls_hypoxiaToLogPhase),
+                   alpha = 0.5, trim = FALSE, adjust = 2, linetype = "blank") +
+  theme_bw() +
+  theme(panel.grid.major = element_line(colour = "#E8EBEC", linewidth = 1.5),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(), 
+        axis.text.x = element_text(size = 50, face = "bold"),
+        axis.text.y = element_text(size = 20, face = "bold"),
+        axis.ticks = element_blank(), axis.title = element_blank(),
+        legend.key.size = unit(2, 'cm'), legend.title = element_blank()) +
+  scale_x_discrete(limits = c('Small', 'Med-small', 'Med-large', 'Large')) +
+  ylim(-500, 2500) +
+  coord_flip()
+ggsave("./viz_featureDistributions_toCompareTranscript_hypoxiaToLogPhase/featureDistributionTop20combined_toCompareTranscript_HalfLifeFcCls_hypoxiaToLogPhase_combinedSelectedByLeaderlessFoldChange_jointlyByLeaderedLeaderless_leadered_CDS_length.png", width = 35, height = 18, units = "cm", dpi = 600)
+
+###### initialAbundance_logPhase
+feature_i = "initialAbundance_logPhase"
+
+featureTable_den <- featureTable %>% 
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  rename(raw_value = all_of(feature_i)) %>%
+  mutate(initialAbundance_logPhase = log2(raw_value)) %>%
+  select(c("HalfLife_FCcls_hypoxiaToLogPhase", "initialAbundance_logPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  group_by(HalfLife_FCcls_hypoxiaToLogPhase) %>%
+  rename(feature_toViz = all_of(feature_i))
+
+featureTable %>%
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  rename(raw_value = all_of(feature_i)) %>%
+  mutate(initialAbundance_logPhase = log2(raw_value)) %>%
+  select(c("HalfLife_FCcls_hypoxiaToLogPhase", "initialAbundance_logPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  rename(feature_toViz = all_of(feature_i)) %>%
+  ggplot(aes(colour = HalfLife_FCcls_hypoxiaToLogPhase)) +
+  scale_colour_manual(values = col_FC_hypoxiaToLogPhase) +
+  scale_fill_manual(values = col_FC_hypoxiaToLogPhase) +
+  stat_summary(mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, group = 1),
+               fun = "median", geom = "line", color = "#424242", linewidth = 6) +
+  stat_summary(
+    mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz),
+    fun.min = function(z) {quantile(z, 0.25)},
+    fun.max = function(z) {quantile(z, 0.75)},
+    fun = median, size = 5,
+    linewidth = 5) +
+  geom_flat_violin(data = featureTable_den, aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, fill = HalfLife_FCcls_hypoxiaToLogPhase),
+                   alpha = 0.5, trim = FALSE, adjust = 2, linetype = "blank") +
+  theme_bw() +
+  theme(panel.grid.major = element_line(colour = "#E8EBEC", linewidth = 1.5),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(), 
+        axis.text.x = element_text(size = 50, face = "bold"),
+        axis.text.y = element_text(size = 20, face = "bold"),
+        axis.ticks = element_blank(), axis.title = element_blank(),
+        legend.key.size = unit(2, 'cm'), legend.title = element_blank()) +
+  scale_x_discrete(limits = c('Small', 'Med-small', 'Med-large', 'Large')) +
+  ylim(8, 20) +
+  coord_flip()
+ggsave("./viz_featureDistributions_toCompareTranscript_hypoxiaToLogPhase/featureDistributionTop20combined_toCompareTranscript_HalfLifeFcCls_hypoxiaToLogPhase_combinedSelectedByLeaderlessFoldChange_jointlyByLeaderedLeaderless_leadered_initialAbundance_logPhase.png", width = 35, height = 18, units = "cm", dpi = 600)
+
+###### thrprUTR_MFE_20_10nt_3p
+feature_i = "thrprUTR_MFE_20_10nt_3p"
+
+featureTable_den <- featureTable %>% 
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  group_by(HalfLife_FCcls_hypoxiaToLogPhase) %>%
+  rename(feature_toViz = all_of(feature_i))
+
+featureTable %>%
+  select(c(all_of(feature_i), "HalfLife_FCcls_hypoxiaToLogPhase")) %>%
+  mutate_at("HalfLife_FCcls_hypoxiaToLogPhase", as.factor) %>%
+  rename(feature_toViz = all_of(feature_i)) %>%
+  ggplot(aes(colour = HalfLife_FCcls_hypoxiaToLogPhase)) +
+  scale_colour_manual(values = col_FC_hypoxiaToLogPhase) +
+  scale_fill_manual(values = col_FC_hypoxiaToLogPhase) +
+  stat_summary(mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, group = 1),
+               fun = "median", geom = "line", color = "#424242", linewidth = 6) +
+  stat_summary(
+    mapping = aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz),
+    fun.min = function(z) {quantile(z, 0.25)},
+    fun.max = function(z) {quantile(z, 0.75)},
+    fun = median, size = 5,
+    linewidth = 5) +
+  geom_flat_violin(data = featureTable_den, aes(HalfLife_FCcls_hypoxiaToLogPhase, feature_toViz, fill = HalfLife_FCcls_hypoxiaToLogPhase),
+                   alpha = 0.5, trim = FALSE, adjust = 2, linetype = "blank") +
+  theme_bw() +
+  theme(panel.grid.major = element_line(colour = "#E8EBEC", linewidth = 1.5),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(), 
+        axis.text.x = element_text(size = 50, face = "bold"),
+        axis.text.y = element_text(size = 20, face = "bold"),
+        axis.ticks = element_blank(), axis.title = element_blank(),
+        legend.key.size = unit(2, 'cm'), legend.title = element_blank()) +
+  scale_x_discrete(limits = c('Small', 'Med-small', 'Med-large', 'Large')) +
+  ylim(-12, 2) +
+  coord_flip()
+ggsave("./viz_featureDistributions_toCompareTranscript_hypoxiaToLogPhase/featureDistributionTop20combined_toCompareTranscript_HalfLifeFcCls_hypoxiaToLogPhase_combinedSelectedByLeaderlessFoldChange_jointlyByLeaderedLeaderless_leadered_thrprUTR_MFE_20_10nt_3p.png", width = 35, height = 18, units = "cm", dpi = 600)
